@@ -731,18 +731,7 @@ proc insertKeepMarkers*(b: Buffer; s: string) =
   insertNoSelect(b, s, true, true)
 
 proc baseIndent(s: string): int =
-  result = -1
-  var i = 0
-  while i < s.len:
-    var ind = 0
-    while s[i] == ' ':
-      inc i
-      inc ind
-    while i < s.len and s[i] != '\L': inc i
-    if i >= s.len: break
-    if result == -1 or ind < result:
-      result = ind
-    inc i
+  return -1
 
 proc startsWithWord[T](b: T; s: string; start: int): bool =
   var i = 0
