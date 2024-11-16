@@ -1,4 +1,4 @@
-
+import packages/docutils/rstgen
 proc singleQuoted(s: string): string =
   if find(s, {'\L', '\C'}) >= 0:
     result = escape(s)
@@ -345,6 +345,8 @@ proc runCmd(ed: Editor; cmd: string; shiftPressed: bool): bool =
       sh.statusMsg = "wrong command, try: start|stop|debug"
     success()
   of "help":
+    if not fileExists(getAppDir() / "docs.html") and fileExists(getAppDir() / "docs.rst"):
+      writeFile(getAppDir() / "docs.html", rstToHtml(readFile(getAppDir() / "docs.rst"), {}, defaultConfig()))
     openDefaultBrowser getAppDir() / "docs.html"
     success()
   else:
