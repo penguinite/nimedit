@@ -361,7 +361,7 @@ proc drawToken(t: InternalTheme; db: var DrawBuffer; fg, bg: Color) =
     var iters = 0
     while db.ra < db.charsLen:
       inc iters
-      var start = cstring(cast[cstring](addr db.chars[db.ra]))
+      var start = cast[cstring](addr db.chars[db.ra])
       assert start[0] != '\0'
 
       var probe = db.ra

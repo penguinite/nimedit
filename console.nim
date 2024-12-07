@@ -270,6 +270,9 @@ proc tabPressed*(c: Console; basePath: string) =
   if c.files.len == 0:
     # prefix == "..\..\foo"
     let (path, prefix) = c.prefix.splitPath
+    if path == "":
+      return
+
     if path[0] == '~':
       let expandedPath = getHomeDir() / path.substr(1)
       for k, f in os.walkDir(expandedPath, relative=false):
