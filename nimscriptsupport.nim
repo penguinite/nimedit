@@ -1,14 +1,14 @@
 
 import
-  compiler/ast, compiler/modules, compiler/passes,
-  compiler/condsyms, compiler/options,
-  compiler/llstream, compiler/vm, compiler/vmdef,
-  compiler/magicsys, compiler/idents,
-  compiler/modulegraphs, compiler/pathutils
+  compiler/[ast, modules, passes,
+  condsyms, options,
+  llstream, vm, vmdef,
+  magicsys, idents,
+  modulegraphs, pathutils]
 
 when NimMajor >= 2:
   import
-    compiler/pipelines, compiler/commands
+    compiler/[pipelines, commands]
 else:
   import
     compiler/sem
@@ -122,7 +122,13 @@ proc detectNimLib(): string =
           result = nimexe.expandSymlink.splitPath()[0] /../ "lib"
         except OSError:
           result = getHomeDir() / ".choosenim/toolchains/nim-" & NimVersion / "lib"
+      elif defined(windows):
+        result = getHomeDir() / ".choosenim/toolchains/nim-" & NimVersion / "lib"
+      else:
+        # TODO
+        {.error: "not implemented".}
       if not fileExists(result / "system.nim"):
+        echo result
         quit "cannot find Nim's stdlib location"
   when not defined(release): echo result
 
